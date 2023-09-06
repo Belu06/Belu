@@ -94,3 +94,13 @@ def login_required(view):
         return view(**kwargs)
 
     return wrapped_view
+
+@bp.route('/modificacion', methods=('GET', 'POST'))
+def cambioMail():
+    gmail = request.form['gmail']
+    db = get_db()
+    error = None
+    user = db.execute(
+    'SELECT * FROM user WHERE username = ?', (gmail)
+    ).fetchone()
+    return render_template('auth/modificacion.html')
