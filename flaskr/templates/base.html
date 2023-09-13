@@ -7,11 +7,12 @@
     {% if g.user %}
       <li><span>{{ g.user['username'] }}</span>
       <li><span>{{ g.user['email'] }} </span>
+      <li><a href="{{ url_for('auth.cambioMail') }}">Cambio mail</a>
       <li><a href="{{ url_for('auth.logout') }}">Salir</a>
     {% else %}
       <li><a href="{{ url_for('auth.register') }}">Registrarse</a>
       <li><a href="{{ url_for('auth.login') }}">Acceder</a>
-      <li><a href="{{ url_for('auth.modificacion') }}">Cambiar Email</a>
+
     {% endif %}
   </ul>
 </nav>

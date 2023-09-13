@@ -96,11 +96,25 @@ def login_required(view):
     return wrapped_view
 
 @bp.route('/modificacion', methods=('GET', 'POST'))
+@login_required
 def cambioMail():
-    gmail = request.form['gmail']
-    db = get_db()
-    error = None
-    user = db.execute(
-    'SELECT * FROM user WHERE username = ?', (gmail)
-    ).fetchone()
+    if request.method == 'POST':
+        email = request.form['email'] #pude ir al emailnuevo
+        error = None
+
+        if not email:
+            error = 'email nuevo requerido.'
+
+        if error is not None:
+            flash(error)    
+        else:
+                db = get_db()
+                db.execute(
+                    'UPDATE user SET email = ?'
+                    ' WHERE id = ?',
+                    (email, session.get('user_id'))
+                )
+                db.commit()
+                return redirect(url_for('blog.index'))
+
     return render_template('auth/modificacion.html')
